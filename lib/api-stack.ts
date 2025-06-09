@@ -10,7 +10,7 @@ export class ApiStack extends cdk.Stack {
 }
 
 export class TaskApiStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: StackProps) {
+  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
     // 👇 Define Lambda function
