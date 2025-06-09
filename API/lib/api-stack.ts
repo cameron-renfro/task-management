@@ -29,11 +29,6 @@ export class TaskApiStack extends Stack {
 
     // /ping endpoint
     const ping = api.root.addResource('ping')
-    ping.addCorsPreflight({
-      allowOrigins: ['http://localhost:5173'], // Allow your frontend URL
-      allowMethods: apigateway.Cors.ALL_METHODS,
-      allowHeaders: ['Content-Type'],
-    })
     ping.addMethod('GET', new apigateway.LambdaIntegration(pingLambda))
   }
 }
