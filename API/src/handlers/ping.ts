@@ -5,7 +5,8 @@ export const handler: APIGatewayProxyHandler = async (event: any) => {
     statusCode: 200,
     headers: {
       'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Credentials': 'true',
+      'Access-Control-Allow-Credentials': true,
+      'Access-Control-Allow-Headers': 'Content-Type',
     },
     body: JSON.stringify({
       message: 'pong!',
