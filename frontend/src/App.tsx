@@ -11,12 +11,7 @@ function App() {
     const url =
       "https://zn6wvmciu6.execute-api.us-east-1.amazonaws.com/dev/ping";
 
-    fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    fetch(url)
       .then((response) => response.json())
       .then((data) => {
         console.log("Data fetched:", data);
