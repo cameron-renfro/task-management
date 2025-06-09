@@ -11,7 +11,16 @@ function App() {
     const url =
       'https://zn6wvmciu6.execute-api.us-east-1.amazonaws.com/dev/ping'
 
-    fetch(url)
+    fetch(url, {
+      mode: 'cors',
+      method: 'OPTIONS',
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*', // Adjust this to your frontend URL
+        'Access-Control-Allow-Credentials': 'true',
+      },
+      credentials: 'include',
+    })
       .then((response) => response.json())
       .then((data) => {
         console.log('Data fetched:', data)
@@ -21,7 +30,7 @@ function App() {
         console.error('Error fetching data:', error)
         setMessage('Failed to fetch data')
       })
-  }, [])
+  }, [message])
 
   return (
     <>

@@ -21,7 +21,7 @@ export class TaskApiStack extends Stack {
         stageName: 'dev',
       },
       defaultCorsPreflightOptions: {
-        allowOrigins: ['http://localhost:5173'], // Allow your frontend URL
+        allowOrigins: apigateway.Cors.ALL_ORIGINS, // Allow your frontend URL
         allowMethods: apigateway.Cors.ALL_METHODS,
         allowHeaders: ['Content-Type'],
       },
@@ -30,5 +30,10 @@ export class TaskApiStack extends Stack {
     // /ping endpoint
     const ping = api.root.addResource('ping')
     ping.addMethod('GET', new apigateway.LambdaIntegration(pingLambda))
+    ping.addCorsPreflight({
+      allowOrigins: ['http://localhost:5173'],
+      allowMethods: apigateway.Cors.ALL_METHODS, // Only the methods your frontend uses
+      allowHeaders: ['Content-Type'], // Or ['*'] if you're using custom headers
+    })
   }
 }
