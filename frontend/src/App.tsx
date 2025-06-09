@@ -16,8 +16,7 @@ function App() {
       method: 'OPTIONS',
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*', // Adjust this to your frontend URL
-        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Allow-Origin': 'http://localhost:5173', // Adjust this to your frontend URL
       },
       credentials: 'include',
     })
