@@ -20,11 +20,6 @@ export class TaskApiStack extends Stack {
       deployOptions: {
         stageName: 'dev',
       },
-      defaultCorsPreflightOptions: {
-        allowOrigins: apigateway.Cors.ALL_ORIGINS, // Allow your frontend URL
-        allowMethods: apigateway.Cors.ALL_METHODS,
-        allowHeaders: ['Content-Type'],
-      },
     })
 
     // /ping endpoint
