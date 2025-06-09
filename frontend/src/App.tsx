@@ -1,27 +1,27 @@
-import { useState, useEffect } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
+import { useState, useEffect } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0);
-  const [message, setMessage] = useState("");
+  const [count, setCount] = useState(0)
+  const [message, setMessage] = useState('')
 
   useEffect(() => {
     const url =
-      "https://zn6wvmciu6.execute-api.us-east-1.amazonaws.com/dev/ping";
+      'https://zn6wvmciu6.execute-api.us-east-1.amazonaws.com/dev/ping'
 
     fetch(url)
       .then((response) => response.json())
       .then((data) => {
-        console.log("Data fetched:", data);
-        setMessage(data.message);
+        console.log('Data fetched:', data)
+        setMessage(data.message)
       })
       .catch((error) => {
-        console.error("Error fetching data:", error);
-        setMessage("Failed to fetch data");
-      });
-  }, []);
+        console.error('Error fetching data:', error)
+        setMessage('Failed to fetch data')
+      })
+  }, [])
 
   return (
     <>
@@ -51,7 +51,7 @@ function App() {
         </div>
       )}
     </>
-  );
+  )
 }
 
-export default App;
+export default App
