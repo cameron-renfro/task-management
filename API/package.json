@@ -6,7 +6,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "watch": "tsc -w",
+    "dev": "tsc -w",
     "test": "jest",
     "cdk": "cdk"
   },
