@@ -37,7 +37,7 @@ export class TaskApiStack extends Stack {
       ],
     })
     ping.addCorsPreflight({
-      allowOrigins: ['http://localhost:5173', '*'],
+      allowOrigins: ['*'],
       allowMethods: apigateway.Cors.ALL_METHODS, // Only the methods your frontend uses
       allowHeaders: ['*'], // Or ['*'] if you're using custom headers
     })
