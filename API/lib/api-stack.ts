@@ -24,11 +24,22 @@ export class TaskApiStack extends Stack {
 
     // /ping endpoint
     const ping = api.root.addResource('ping')
-    ping.addMethod('GET', new apigateway.LambdaIntegration(pingLambda))
+    ping.addMethod('GET', new apigateway.LambdaIntegration(pingLambda), {
+      methodResponses: [
+        {
+          statusCode: '200',
+          responseParameters: {
+            'method.response.header.Access-Control-Allow-Origin': true,
+            'method.response.header.Access-Control-Allow-Credentials': true,
+            'method.response.header.Access-Control-Allow-Headers': true,
+          },
+        },
+      ],
+    })
     ping.addCorsPreflight({
-      allowOrigins: ['http://localhost:5173'],
+      allowOrigins: ['http://localhost:5173', '*'],
       allowMethods: apigateway.Cors.ALL_METHODS, // Only the methods your frontend uses
-      allowHeaders: ['Content-Type'], // Or ['*'] if you're using custom headers
+      allowHeaders: ['*'], // Or ['*'] if you're using custom headers
     })
   }
 }

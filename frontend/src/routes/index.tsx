@@ -1,9 +1,14 @@
 // src/routes/index.tsx
 import * as fs from 'node:fs'
+import { useState, useEffect } from 'react'
 import { useRouter, createFileRoute } from '@tanstack/react-router'
 import { createServerFn } from '@tanstack/react-start'
 
 const filePath = 'count.txt'
+
+interface Data {
+  message: string
+}
 
 async function readCount() {
   return parseInt(
@@ -30,8 +35,23 @@ export const Route = createFileRoute('/')({
 })
 
 function Home() {
+  const [data, setData] = useState<Data | null>(null)
   const router = useRouter()
   const state = Route.useLoaderData()
+
+  useEffect(() => {
+    const url =
+      'https://zn6wvmciu6.execute-api.us-east-1.amazonaws.com/dev/ping'
+
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log('Fetched data:', data)
+        setData(data)
+      })
+
+      .catch((error) => console.error('Error fetching data:', error))
+  })
 
   return (
     <button
@@ -43,6 +63,11 @@ function Home() {
       }}
     >
       Add 1 to {state}?
+      {data && (
+        <>
+          <p>{data.message}</p>
+        </>
+      )}
     </button>
   )
 }
