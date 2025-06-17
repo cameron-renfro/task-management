@@ -6,7 +6,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "dev": "tsc -w",
+    "dev": "ts-node src/server.ts",
     "test": "jest",
     "cdk": "cdk"
   },
