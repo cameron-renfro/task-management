@@ -7,20 +7,18 @@ export class TaskApiStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props)
 
-    // Lambda function
     const pingLambda = new lambda.Function(this, 'PingFunction', {
       runtime: lambda.Runtime.NODEJS_22_X,
-      handler: 'ping.handler', // file: ping.ts, function: handler
-      code: lambda.Code.fromAsset('src/handlers'), // path to folder
+      handler: 'ping.handler',
+      code: lambda.Code.fromAsset('src/handlers'),
     })
 
     const registerLambda = new lambda.Function(this, 'RegisterFunction', {
       runtime: lambda.Runtime.NODEJS_22_X,
       handler: 'register.handler',
-      code: lambda.Code.fromAsset('src/handlers/auth'), // path to folder
+      code: lambda.Code.fromAsset('src/handlers/auth'),
     })
 
-    // REST API
     const api = new apigateway.RestApi(this, 'TaskApi', {
       restApiName: 'Task Service',
       deployOptions: {
@@ -28,7 +26,6 @@ export class TaskApiStack extends Stack {
       },
     })
 
-    // /ping endpoint
     const ping = api.root.addResource('ping')
     ping.addMethod('GET', new apigateway.LambdaIntegration(pingLambda), {
       methodResponses: [
@@ -44,8 +41,8 @@ export class TaskApiStack extends Stack {
     })
     ping.addCorsPreflight({
       allowOrigins: ['*'],
-      allowMethods: apigateway.Cors.ALL_METHODS, // Only the methods your frontend uses
-      allowHeaders: ['*'], // Or ['*'] if you're using custom headers
+      allowMethods: apigateway.Cors.ALL_METHODS,
+      allowHeaders: ['*'],
     })
 
     const auth = api.root.addResource('auth')
@@ -69,8 +66,8 @@ export class TaskApiStack extends Stack {
 
     register.addCorsPreflight({
       allowOrigins: ['*'],
-      allowMethods: apigateway.Cors.ALL_METHODS, // Only the methods your frontend uses
-      allowHeaders: ['*'], // Or ['*'] if you're using custom headers
+      allowMethods: apigateway.Cors.ALL_METHODS,
+      allowHeaders: ['*'],
     })
   }
 }
