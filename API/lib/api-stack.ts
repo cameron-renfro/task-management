@@ -16,7 +16,7 @@ export class TaskApiStack extends Stack {
 
     const registerLambda = new lambda.Function(this, 'RegisterFunction', {
       runtime: lambda.Runtime.NODEJS_22_X,
-      handler: 'register.handler',
+      handler: 'auth.register.handler',
       code: lambda.Code.fromAsset('src/handlers/auth'), // path to folder
     })
 
@@ -48,7 +48,8 @@ export class TaskApiStack extends Stack {
       allowHeaders: ['*'], // Or ['*'] if you're using custom headers
     })
 
-    const register = api.root.addResource('register')
+    const auth = api.root.addResource('auth')
+    const register = auth.addResource('register')
     register.addMethod(
       'GET',
       new apigateway.LambdaIntegration(registerLambda),
@@ -65,5 +66,11 @@ export class TaskApiStack extends Stack {
         ],
       }
     )
+
+    register.addCorsPreflight({
+      allowOrigins: ['*'],
+      allowMethods: apigateway.Cors.ALL_METHODS, // Only the methods your frontend uses
+      allowHeaders: ['*'], // Or ['*'] if you're using custom headers
+    })
   }
 }
