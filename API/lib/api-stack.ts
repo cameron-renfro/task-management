@@ -16,7 +16,7 @@ export class TaskApiStack extends Stack {
 
     const registerLambda = new lambda.Function(this, 'RegisterFunction', {
       runtime: lambda.Runtime.NODEJS_22_X,
-      handler: 'auth.register.handler',
+      handler: 'register.handler',
       code: lambda.Code.fromAsset('src/handlers/auth'), // path to folder
     })
 
