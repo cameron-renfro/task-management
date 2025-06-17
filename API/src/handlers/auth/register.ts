@@ -1,6 +1,6 @@
 import { APIGatewayProxyHandler } from 'aws-lambda'
 
-export const handler: APIGatewayProxyHandler = async (event: any) => {
+export const handler: APIGatewayProxyHandler = async () => {
   return {
     statusCode: 200,
     headers: {
@@ -8,9 +8,6 @@ export const handler: APIGatewayProxyHandler = async (event: any) => {
       'Access-Control-Allow-Credentials': true,
       'Access-Control-Allow-Headers': 'Content-Type',
     },
-    body: JSON.stringify({
-      message: 'pong!',
-      user: event.requestContext.authorizer,
-    }),
+    body: JSON.stringify({ message: 'Register for Today App 😃' }),
   }
 }
