@@ -17,7 +17,7 @@ export class TaskApiStack extends Stack {
     const registerLambda = new lambda.Function(this, 'RegisterFunction', {
       runtime: lambda.Runtime.NODEJS_22_X,
       handler: 'auth.register.handler',
-      code: lambda.Code.fromAsset('src/handlers'), // path to folder
+      code: lambda.Code.fromAsset('src/handlers/auth'), // path to folder
     })
 
     // REST API
@@ -67,7 +67,7 @@ export class TaskApiStack extends Stack {
       }
     )
 
-    auth.addCorsPreflight({
+    register.addCorsPreflight({
       allowOrigins: ['*'],
       allowMethods: apigateway.Cors.ALL_METHODS, // Only the methods your frontend uses
       allowHeaders: ['*'], // Or ['*'] if you're using custom headers
