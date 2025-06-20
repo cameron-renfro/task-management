@@ -5,7 +5,7 @@ import {
 } from 'aws-lambda'
 import {
   CognitoIdentityProviderClient,
-  SignUpCommand,
+  ConfirmSignUpCommand,
 } from '@aws-sdk/client-cognito-identity-provider'
 
 const cognito = new CognitoIdentityProviderClient({ region: 'us-east-1' })
@@ -13,36 +13,32 @@ const cognito = new CognitoIdentityProviderClient({ region: 'us-east-1' })
 export const handler: APIGatewayProxyHandler = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
-  console.log('Env Client ID:', process.env.USER_POOL_CLIENT_ID)
   console.log('Received event 1:', event)
   try {
     const body = JSON.parse(event.body || '{}')
-    const { email, password } = body
+    console.log('🏃 Parsed body:', body)
+    const { username, confirmationCode } = body
 
-    if (!email || !password) {
+    if (!username || !confirmationCode) {
       return {
         statusCode: 400,
-        body: JSON.stringify({ error: 'Email and password are required' }),
+        body: JSON.stringify({
+          error: 'Username and confirmation code are required',
+        }),
       }
     }
 
-    const command = new SignUpCommand({
+    const command = new ConfirmSignUpCommand({
       ClientId: process.env.USER_POOL_CLIENT_ID, // Ensure this is set in your environment
-      Username: email,
-      Password: password,
-      UserAttributes: [
-        {
-          Name: 'email',
-          Value: email,
-        },
-      ],
+      Username: username,
+      ConfirmationCode: confirmationCode,
     })
 
     await cognito.send(command)
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ message: 'User registered successfully' }),
+      body: JSON.stringify({ message: 'User confirmed successfully' }),
     }
   } catch (error: unknown) {
     console.error('Error processing request:', error)

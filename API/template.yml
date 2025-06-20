@@ -28,18 +28,76 @@ Resources:
 
   RegisterFunction:
     Type: AWS::Serverless::Function
+
     Properties:
       CodeUri: src/handlers/
       Handler: auth/register.handler
       Runtime: nodejs22.x
       Architectures:
         - arm64
+      Environment:
+        Variables:
+          USER_POOL_ID: !Ref UserPool
+          USER_POOL_CLIENT_ID: !Ref UserPoolClient
       Events:
-        Register:
+        RegisterGet:
           Type: Api
           Properties:
             Path: /auth/register
             Method: get
+        RegisterPost:
+          Type: Api
+          Properties:
+            Path: /auth/register
+            Method: post
+
+  ConfirmFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/handlers/
+      Handler: auth/confirm.handler
+      Runtime: nodejs22.x
+      Architectures:
+        - arm64
+      Environment:
+        Variables:
+          USER_POOL_ID: !Ref UserPool
+          USER_POOL_CLIENT_ID: !Ref UserPoolClient
+      Events:
+        ConfirmGet:
+          Type: Api
+          Properties:
+            Path: /auth/confirm
+            Method: get
+        ConfirmPost:
+          Type: Api
+          Properties:
+            Path: /auth/confirm
+            Method: post
+
+  LoginFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/handlers/
+      Handler: auth/login.handler
+      Runtime: nodejs22.x
+      Architectures:
+        - arm64
+      Environment:
+        Variables:
+          USER_POOL_ID: !Ref UserPool
+          USER_POOL_CLIENT_ID: !Ref UserPoolClient
+      Events:
+        LoginGet:
+          Type: Api
+          Properties:
+            Path: /auth/login
+            Method: get
+        LoginPost:
+          Type: Api
+          Properties:
+            Path: /auth/login
+            Method: post
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
@@ -64,3 +122,23 @@ Outputs:
   RegisterFunctionIamRole:
     Description: 'Implicit IAM Role created for Register function'
     Value: !GetAtt RegisterFunctionRole.Arn
+
+  ConfirmApi:
+    Description: 'API Gateway endpoint URL for Prod stage for Register function'
+    Value: !Sub 'https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/dev/auth/confirm/'
+  ConfirmFunction:
+    Description: 'Confirm Lambda Function ARN'
+    Value: !GetAtt ConfirmFunction.Arn
+  ConfirmFunctionIamRole:
+    Description: 'Implicit IAM Role created for Confirm function'
+    Value: !GetAtt ConfirmFunctionRole.Arn
+
+  LoginApi:
+    Description: 'API Gateway endpoint URL for Prod stage for Register function'
+    Value: !Sub 'https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/dev/auth/login/'
+  LoginFunction:
+    Description: 'Login Lambda Function ARN'
+    Value: !GetAtt LoginFunction.Arn
+  LoginFunctionIamRole:
+    Description: 'Implicit IAM Role created for Login function'
+    Value: !GetAtt LoginFunctionRole.Arn
